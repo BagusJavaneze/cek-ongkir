@@ -6,4 +6,4 @@ Dibuat dengan framework CodeIgniter 3 sehingga mudah untuk dipelajari dan dikemb
 ## Cara Install
 
 1. Clone projek ini pada direktori web server lokal
-2. Jalankan di browser dengan mengakses http://localhost/cek_ongkir
+2. Jalankan di browser dengan mengakses http://localhost/cek-ongkir
