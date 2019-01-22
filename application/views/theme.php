@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html>
     <head>
+        <title>Cek Ongkos Kirim Pos Indonesia &mdash; Created by BAGOS ANGGARA</title>
         <!-- Bootstrap core CSS -->
         <link href="<?=base_url('assets/css/bootstrap.min.css')?>" rel="stylesheet">
         <!-- jQuery UI CSS -->
