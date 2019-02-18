@@ -11,11 +11,11 @@ class Cek_resi extends CI_Controller {
         if($this->input->is_ajax_request()):
             $nomor_resi = $this->input->post('nomor_resi');
             $cek_resi = $this->_cek_resi_pos($nomor_resi);
-            
+
             if(!empty($cek_resi)){
-                echo '<pre>';
-                print_r($cek_resi);
-                echo '</pre>';
+                $data = ['html_data' => $cek_resi];
+                $view = $this->load->view('hasil_resi', $data, TRUE);
+                print $view;
             }
             else{
                 print $cek_resi;
@@ -26,7 +26,7 @@ class Cek_resi extends CI_Controller {
 	}
 
     private function _cek_resi_pos($nomor_resi){
-        $parameter = array(
+        /*$parameter = array(
             CURLOPT_RETURNTRANSFER=>TRUE,
             CURLOPT_SSL_VERIFYPEER=>FALSE,
             CURLOPT_HTTPHEADER => array(
@@ -38,7 +38,24 @@ class Cek_resi extends CI_Controller {
         $this->curl->create('https://api.aftership.com/v4/trackings/pos-indonesia/'.$nomor_resi);
         $this->curl->options($parameter);
         $response = $this->curl->execute();
-        return json_decode($response, true);
+        return json_decode($response, true);*/
+
+        $base = "https://track.aftership.com/pos-indonesia/$nomor_resi?";
+        $parameter = array(
+            CURLOPT_SSL_VERIFYPEER=>FALSE,
+            CURLOPT_HEADER=>FALSE,
+            CURLOPT_FOLLOWLOCATION=>TRUE,
+            CURLOPT_RETURNTRANSFER=>TRUE,
+            
+        );
+        $this->curl->create($base);
+        $this->curl->options($parameter);
+        $response = $this->curl->execute();
+
+        // remove unneeded string
+        $final_response = $this->_process_html($response);
+
+        return $final_response;
     }
 
     private function _get_all_couriers(){
@@ -55,6 +72,29 @@ class Cek_resi extends CI_Controller {
         $this->curl->options($parameter);
         $response = $this->curl->execute();
         return json_decode($response, true);
+    }
+
+    private function _process_html($html){
+        $start = "<div class=\"checkpoints\">";
+        $end   = "Date & time are usually";
+        $startPosisition = strpos($html, $start);
+        $endPosisition   = strpos($html, $end); 
+        
+        $longText = $endPosisition - $startPosisition;
+        $result = substr($html, $startPosisition, $longText);
+        
+        $str = trim($result);
+        $search = array ("'Indonesia'");
+        $replace = array ("");
+    
+        $string = preg_replace($search, $replace, $str);
+        $final_string = preg_replace("/\r|\n/", "", $string);
+
+        if ( !write_file('./assets/hasil_resi.html', $final_string) ){
+             return 'Unable to write the file';
+        }
+        
+        return $final_string;
     }
 
 }

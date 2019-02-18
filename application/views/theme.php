@@ -6,6 +6,8 @@
         <link href="<?=base_url('assets/css/bootstrap.min.css')?>" rel="stylesheet">
         <!-- jQuery UI CSS -->
         <link href="<?=base_url('assets/css/jquery-ui.css')?>" rel="stylesheet">
+        <!-- Custom CSS -->
+        <link href="<?=base_url('assets/css/custom.css')?>" rel="stylesheet">
         <!-- jQuery -->
         <script src="<?=base_url('assets/js/jquery.min.js')?>"></script>
     </head>
@@ -56,7 +58,7 @@
                     <form id="cekResiForm">
                         <div class="form-group">
                           <label for="resi">Nomor Resi: <span class="text-danger"><strong>*</strong></span></label>
-                          <input type="text" class="form-control" id="resi" placeholder="Masukkan nomor resi Pos Indonesia">
+                          <input type="text" class="form-control" id="resi" placeholder="Masukkan nomor resi Pos Indonesia" autocomplete="off">
                         </div>
                         <p><span class="text-danger"><strong>*</strong></span>) wajib diisi</p>
                         <div id="btn-cek-resi" class="btn btn-success">Cek Resi</div>

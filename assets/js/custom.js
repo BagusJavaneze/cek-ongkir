@@ -56,11 +56,12 @@ $('#btn-cek-resi').click(function(e){
     $(this).addClass('disabled');
     $('#hasil-resi-wrapper').html('<b>Mohon tunggu...</b>');
 
-    var r = $('#resi').val();
+    var r = $('#resi').val().trim();
 
     if(r==""){
         $('#hasil-resi-wrapper').html('<div class="alert alert-danger"><h4>Nomor resi harus diisi!</h4></div>');
-        $('#btn-cek-resi').removeClass('disabled');
+        $('#resi').val('').focus();
+        $(this).removeClass('disabled');
     }
     else{
         // ajax
